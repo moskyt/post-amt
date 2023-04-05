@@ -2,46 +2,50 @@
 
 ## Komponenty
 
-mainboard
-  Arduino Nano Every (5V)
+### mainboard
+Arduino Nano Every (5V)
 
-zdroj - 5+12
-  MEANWELL RD 50A
-  https://www.gme.cz/v/1507485/mean-well-rd-50a-spinany-zdroj-pro-vestavbu-kryty
-  nebo mozna nejdriv zkusim rd35a
-  + stepdown z 12 na 8.5v pro tiskarnu
+### zdroj - 5+12
+MEANWELL RD 50A
+https://www.gme.cz/v/1507485/mean-well-rd-50a-spinany-zdroj-pro-vestavbu-kryty
+nebo mozna nejdriv zkusim rd35a
+a stepdown z 12 na 8.5v pro tiskarnu
+https://www.laskakit.cz/mikro-step-down-menic--nastavitelny
 
-buzzer (mp3 asi neni potreba)
-  aktivni 5v bzucak
+### bzucak
+aktivni 5v bzucak
 
-ciselnik
-  https://aukro.cz/ciselnik-telefonu-zcela-funkcni-9x4-cm-7034546220
+### ciselnik
+https://aukro.cz/ciselnik-telefonu-zcela-funkcni-9x4-cm-7034546220
 
-LCD 20x4 s i2c
-  https://www.laskakit.cz/20x4-lcd-displej-2004-modry-i2c-prevodnik/
+### LCD 20x4 s i2c
+https://www.laskakit.cz/20x4-lcd-displej-2004-modry-i2c-prevodnik/
 
-vaha
-  https://www.laskakit.cz/guang-ce-yzc-131-vazici-senzor-3kg/
-  https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/
+### vaha
+https://www.laskakit.cz/guang-ce-yzc-131-vazici-senzor-3kg/
+https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/
 
-led displej pro vahu
-  4-digit 8-segment
-  https://www.laskakit.cz/hodinovy-displej-0-56--tm1637/
+### led displej pro vahu
+4-digit 8-segment
+https://www.laskakit.cz/hodinovy-displej-0-56--tm1637/
 
-RFID ctecka -- RC522 / 13.56 MHz
-  https://www.laskakit.cz/rfid-ctecka-s-vestavenou-antenou-mfrc-522-rc522/
+### RFID ctecka -- RC522 / 13.56 MHz
+https://www.laskakit.cz/rfid-ctecka-s-vestavenou-antenou-mfrc-522-rc522/
 
-zamek
-  https://www.laskakit.cz/elektromagneticky-zamek-pro-dvere-12vdc-0-6a/
-  pres mosfet
-  https://www.laskakit.cz/pwm-mosfet-modul-lr7843--30vdc-161a/
+### zamek
+https://www.laskakit.cz/elektromagneticky-zamek-pro-dvere-12vdc-0-6a/
+pres mosfet
+https://www.laskakit.cz/pwm-mosfet-modul-lr7843--30vdc-161a/
 
-tiskarna
-  https://www.adafruit.com/product/597
+### tiskarna
+https://www.adafruit.com/product/597
 
-klavesnice
-  https://www.adafruit.com/product/4980
+### klavesnice
+NeoKey
+https://www.adafruit.com/product/4980
 
+### osvetleni supliku
+...
 
 ## Zapojeni
 
@@ -70,6 +74,11 @@ zamek[2] -- do svorkovnice na mosfetu
 
 5v napajeni -- do svorkovnice na mainboardu
 12v napajeni -- do wago svorek
+
+### 12V komponenty
++ mosfet pro zamek
++ sestava osvetleni supliku
++ napajeni pro tiskarnu
 
 # Funkce
 
