@@ -53,6 +53,7 @@ https://www.adafruit.com/product/4980
 
 2+3 - vaha (data, clk)
 4 - bzucak
+5 - rotacni ciselnik
 7+8 - led (clk, data)
 9+10 - rfid (ss, rst)
 16+17 - tiskarna (rx, tx)
@@ -63,8 +64,8 @@ https://www.adafruit.com/product/4980
 
 R32-35 vaha[GND,DATA,CLK,VCC]
 ? bzucak[DATA,GND]
-? rotacni ciselnik[DATA,GND]
-R38-41 led[VCC,GND,?,?]
+R27-28 rotacni ciselnik[DATA,GND]
+R38-41 led[VCC,GND,DATA,CLK]
 L23-20 lcd[GND,VCC,SDA,SCL]
 L36-34 tiskarna[?,?,GND]
 L45-38 rfid[3v3,?,GND,?,MISO,?,SCK,SS]
@@ -76,8 +77,8 @@ zamek[2] -- do svorkovnice na mosfetu
 12v napajeni -- do wago svorek
 
 ### 12V komponenty
+
 + mosfet pro zamek
-+ sestava osvetleni supliku
 + napajeni pro tiskarnu
 
 # Funkce
