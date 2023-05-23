@@ -27,8 +27,8 @@ void get_weight_from_scale() {
     scale_weight = 0;
   if (new_loadcell_data_ready && ((now - last_loadcell_read > 1000) || (now < last_loadcell_read)) ) {
     scale_weight = floor(loadcell.getData());
-    if (abs(scale_weight - last_printed_weight) >= 1) {
-      Serial.print("measured weight = ");
+    if (abs(scale_weight - last_printed_weight) >= 10) {
+      Serial.print(F("measured weight = "));
       Serial.println(scale_weight);
       last_printed_weight = scale_weight;
     }

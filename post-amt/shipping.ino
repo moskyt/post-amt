@@ -12,14 +12,15 @@ void reset_or_send(bool &any_info_neo) {
       long_beep();
     }
     if (buttons & (1<<BTN_SEND)) {
+      beep(2);
       Serial.println(F("Sending shipments, present card!"));
       shipping_state = SHIPPING_CARD;
       lcd.clear();
       lcd.setCursor(0,0);
-      lcd.print("Odesilam ");
+      lcd.print(F("Odesilam "));
       lcd_print_shipments_acc();
-      lcd.setCursor(0,2);
-      lcd.print("Priloz kartu!");
+      lcd.setCursor(0,1);
+      lcd.print(F("Priloz kartu!"));
     }
   } else
   if (shipping_state == SHIPPING_CARD) {
@@ -55,17 +56,17 @@ void add_shipments(bool &any_info_neo) {
         while ((buttons & (1<<BTN_ADD_PARCEL)) || (buttons & (1<<BTN_ADD_LETTER))) buttons = neokey.read();
         lcd.setCursor(0,0);
         if (add_type == SHIPMENT_TYPE_PARCEL)
-          lcd.print("Balik");
+          lcd.print(F("Balik"));
         else if (add_type == SHIPMENT_TYPE_LETTER)
-          lcd.print("Dopis");
+          lcd.print(F("Dopis"));
         else
-          lcd.print("Jina zasilka");
+          lcd.print(F("Jina zasilka"));
         shipment_count++;
         lcd.setCursor(0,1);
         lcd.print(scale_weight);
-        lcd.print(" g");
+        lcd.print(F(" g"));
         lcd.setCursor(0,3);
-        lcd.print("Celkem ");
+        lcd.print(F("Celkem "));
         lcd_print_shipments_nom();
 
         shipment_weight[shipment_count-1] = scale_weight;
@@ -83,23 +84,29 @@ void print_shipment(unsigned long uid) {
   lcd.clear(); 
 
   lcd.setCursor(0,0);
-  lcd.print("Odesilam ");
+  lcd.print(F("Odesilam "));
   lcd_print_shipments_acc();
   lcd.setCursor(0,1);
-  if ( (uid == UID_VLK) ) lcd.print("VLK");
-  if ( (uid == UID_VORSILA) ) lcd.print("VORSILA");
+
+  if ( (uid == UID_VLK) ) lcd.print(F("VLK"));
+  if ( (uid == UID_VORSILA) ) lcd.print(F("VORSILA"));
   lcd.setCursor(0,2);
   lcd.setCursor(0,3);
-  lcd.print("Tisknu stvrzenku...");
+  lcd.print(F("Tisknu stvrzenku..."));
 
   printer.wake();
+
+  printer.printBitmap(die_post_360_width, die_post_360_height, die_post_360_data);
+  printer.feed(1);
+
   printer.setFont('B');
   printer.setSize('L');
-  printer.setLineHeight(72);
+  printer.setLineHeight(40);
   printer.inverseOn();
-  printer.println("VORSILA");
+  if ( (uid == UID_VLK) ) printer.println("VLK");
+  if ( (uid == UID_VORSILA) ) printer.println("VORSILA");
   printer.inverseOff();
-  printer.println("-------");
+  printer.setSize('M');
   printer.feed(1);
   for (int i = 0; i < shipment_count; ++i) {
     if (shipment_type[i] == SHIPMENT_TYPE_PARCEL)
@@ -112,7 +119,7 @@ void print_shipment(unsigned long uid) {
     printer.println(" g");
     printer.println("");
   }
-  printer.feed(3);
+  printer.feed(2);
   printer.sleep();    
   
   beep();
@@ -121,4 +128,5 @@ void print_shipment(unsigned long uid) {
 
   shipping_state = SHIPPING_COLLECTION;
   shipment_count = 0;
+  card_read = 0;
 }

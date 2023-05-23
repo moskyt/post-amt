@@ -1,51 +1,69 @@
+# POSTAMT
+
+Darek pro Vlka a Vorsilu k narozeninam 2023.
+
+Obecne: posledni tyden provazela hardwarova dramata a tak je SW mirne nedotazeny. Urceno k libovolnym upravam chovani i implementace podle potreby a aktualnich napadu.
+
 # Hardware
 
 ## Komponenty
 
 ### mainboard
+
 Arduino Nano Every (5V)
 
 ### zdroj - 5+12
-MEANWELL RD 50A
-https://www.gme.cz/v/1507485/mean-well-rd-50a-spinany-zdroj-pro-vestavbu-kryty
-nebo mozna nejdriv zkusim rd35a
-a stepdown z 12 na 8.5v pro tiskarnu
+
+MEANWELL RD 35A
+https://www.gme.cz/v/1506286/mean-well-rd-35a-spinany-zdroj-pro-vestavbu-kryty
+
+tepdown z 12 na 8.5v pro tiskarnu
 https://www.laskakit.cz/mikro-step-down-menic--nastavitelny
 
 ### bzucak
+
 aktivni 5v bzucak
 
 ### ciselnik
+
+vykuchany rotacni ciselnik z telefonu
 https://aukro.cz/ciselnik-telefonu-zcela-funkcni-9x4-cm-7034546220
 
-### LCD 20x4 s i2c
+### LCD 
+
+znakovy LCD 20x4 s i2c
 https://www.laskakit.cz/20x4-lcd-displej-2004-modry-i2c-prevodnik/
 
 ### vaha
+
+trikilogramovy vahovy senzor
 https://www.laskakit.cz/guang-ce-yzc-131-vazici-senzor-3kg/
 https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/
 
 ### led displej pro vahu
+
 4-digit 8-segment
 https://www.laskakit.cz/hodinovy-displej-0-56--tm1637/
 
 ### RFID ctecka -- RC522 / 13.56 MHz
+
 https://www.laskakit.cz/rfid-ctecka-s-vestavenou-antenou-mfrc-522-rc522/
 
 ### zamek
+
 https://www.laskakit.cz/elektromagneticky-zamek-pro-dvere-12vdc-0-6a/
+
 pres mosfet
 https://www.laskakit.cz/pwm-mosfet-modul-lr7843--30vdc-161a/
 
 ### tiskarna
+
 https://www.adafruit.com/product/597
 
 ### klavesnice
+
 NeoKey
 https://www.adafruit.com/product/4980
-
-### osvetleni supliku
-...
 
 ## Zapojeni
 
@@ -63,23 +81,24 @@ https://www.adafruit.com/product/4980
 ### Pripojeni komponent na mainboard
 
 R32-35 vaha[GND,DATA,CLK,VCC]
-? bzucak[DATA,GND]
-R27-28 rotacni ciselnik[DATA,GND]
+? bzucak[+,GND]
+R27-28 rotacni ciselnik[*,*]
 R38-41 led[VCC,GND,DATA,CLK]
 L23-20 lcd[GND,VCC,SDA,SCL]
 L36-34 tiskarna[?,?,GND]
 L45-38 rfid[3v3,?,GND,?,MISO,?,SCK,SS]
 L30-27 neokey[VCC,GND,SCL,SDA]
 
-zamek[2] -- do svorkovnice na mosfetu
+zamek -- do svorkovnice na mosfetu
 
 5v napajeni -- do svorkovnice na mainboardu
 12v napajeni -- do wago svorek
 
 ### 12V komponenty
 
-+ mosfet pro zamek
-+ napajeni pro tiskarnu
+mosfet pro zamek
+
+napajeni pro tiskarnu (stepdown na 8.5VÎ)
 
 # Funkce
 
@@ -88,57 +107,33 @@ zamek[2] -- do svorkovnice na mosfetu
 ### Vaha
 
 po zatizeni se ukaze hmotnost
-pokud neprobiha odesilani zasilek, lze tlacitkem 4 vynulovat taru
+
+pokud neprobiha odesilani zasilek, lze tlacitkem vynulovat taru
 
 ### Odesilani zasilek
 
-po navazeni vybiram tlacitkem 1/2 balik nebo dopis
+po navazeni vybiram tlacitkem balik nebo dopis
+
 na LCD se mi ukaze pridana zasilka a pocet zasilek
-tlacitkem 4 vsechno vyresetuju
-tlacitkem 3 zahajim odesilani
+
+tlacitkem vsechno vyresetuju
+
+tlacitkem zahajim odesilani
+
 po prilozeni karty se vytiskne listecek
 
 ### Suplik
 
-po vytoceni trojmistneho kodu se otevre
-po spatne cislici nebo prodleve se vyresetuje (cervene svetlo, zapipa, zhasne)
+po vytoceni kodu 1234 se otevre
 
 zapadka: vzadu shora
-! pojezdy
-! magnety misto pruziny
 
-osvetleni:
-nahore 12v led pasek
-zapojeni pres mosfet a reed switch (dole) -- uplne mimo arduino
+automaticke otevirani na odpuzujici se magnety vedlo k tomu, ze se zapadka nedokazala otevrit. nestihnul jsem vyzkouset ruzne alternativy, ale mozna by to spravne slaba pruzina nebo spravna dvojice magnetu vyresila
 
 ## Playware
 
-### Razitka
+nejaky bizar z aukra
 
-giyf poststempel schweiz
-    - kulaty postovni curych
-    - die post
-    - priority
-    - misto znamky helvetia
+par osvojenych formularu z ceske posty
 
-plus polstarek a barva
-
-vse v boxiku do jedne z policek
-
-### Nalepky a formulare
-
-v policce
-
-### suplik s penezma
-
-mince 1
-bankovka 5 - orla
-bankovka 10 - vorsila
-bankovka 20 - vlk
-
-## Servisni features
-
-microusb vyvedeny dozadu
-
-napajeni pres iec konektor
-
+pokud mi bude sihlpost milostiv, tak https://shop.post.ch/shop/ui/de/geschenke/spielwaren/kinderpost-zubehor/p/507512

@@ -5,6 +5,12 @@ void beep() {
   digitalWrite(PIN_BEEP, LOW);
 }
 
+void beep1(int m) {
+  digitalWrite(PIN_BEEP, HIGH);
+  delay(m);
+  digitalWrite(PIN_BEEP, LOW);
+}
+
 void beep(int n) {
   for (int i = 0; i < n; ++i) {
     digitalWrite(PIN_BEEP, HIGH);

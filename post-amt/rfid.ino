@@ -9,11 +9,11 @@ void read_rfid() {
     uid += (long)mfrc522.uid.uidByte[2] << 8;
     uid += (long)mfrc522.uid.uidByte[3];
     Serial.println(uid,HEX); 
-    rfid_uid = uid;
+    card_read = uid;
     if (shipping_state != SHIPPING_CARD) 
       beep();
   }
   if (now - last_rfid_read > 1000) {
-    rfid_uid = 0;
+    card_read = 0;
   }
 }

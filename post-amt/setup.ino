@@ -2,30 +2,41 @@ void setup() {
   // ---
   Serial.begin(115200);
   while (! Serial) delay(10);
-  Serial.println("PostAmt HELO\n");  
+  Serial.println(F("PostAmt HELO\n"));  
+
+  // --- lock
+  pinMode(PIN_LOCK, OUTPUT);
+  digitalWrite(PIN_LOCK, LOW);
+  
+  // --- dial
+  pinMode(PIN_DIAL, INPUT_PULLUP);
 
   // ---
-  Serial.println("Init LCD ... ");  
+  Serial.println(F("Init LCD ... "));  
   int status = lcd.begin(20, 4);
   if(status) {
-    Serial.println("FAILED.");
+    Serial.println(F("FAILED."));
+  } else {
+    Serial.println(F("OK."));  
   }
-  Serial.println("OK.");  
 
   lcd.setCursor(0,0);
-  lcd.print("PostAmt");
+  lcd.print(F("PostAmt"));
   lcd.setCursor(0,1);
-  lcd.print("=======");
+  lcd.print(F("======="));
   delay(2000);
 
   // ---
   lcd.setCursor(0,3);
-  lcd.print("(klavesnice)        ");
-  Serial.println("Init NeoKey ... ");  
+  lcd.print(F("(klavesnice)        "));
+  Serial.println(F("Init NeoKey ... "));  
   if (!neokey.begin(I2C_NEOKEY)) {
-    Serial.println("FAILED.");
+    Serial.println(F("FAILED."));
+    neokey_available = false;
+  } else {
+    Serial.println(F("OK."));  
+    neokey_available = true;
   }
-  Serial.println("OK.");  
 
   neokey.pixels.setPixelColor(0, 0xFF0000);
   neokey.pixels.setPixelColor(1, 0xFFFF00);
@@ -36,58 +47,64 @@ void setup() {
 
   // ---
   lcd.setCursor(0,3);
-  lcd.print("(vaha)           ");
-  Serial.println("Init LED ... ");  
+  lcd.print(F("(vaha)           "));
+  Serial.println(F("Init LED ... "));  
   led.setBrightness(0x0f);
-  Serial.println("OK.");  
+  Serial.println(F("OK."));  
   uint8_t data[] = { 0xff, 0xff, 0xff, 0xff };
   led.setSegments(data);
 
   // ---
-  Serial.println("Init load cell ... ");  
+  Serial.println(F("Init load cell ... "));  
   loadcell.begin();
   loadcell.start(2000, true);
   if (loadcell.getTareTimeoutFlag()) {
-    Serial.println("FAILED");
-    //while (1);
+    Serial.println(F("FAILED"));
   } else {
     loadcell.setCalFactor(load_cell_cal);
+    Serial.println(F("OK."));  
   }
-  Serial.println("OK.");  
 
   // ---
   Serial.println(F("Init beeper..."));
   pinMode(PIN_BEEP, OUTPUT);
   digitalWrite(PIN_BEEP, LOW);
-  Serial.println("OK.");  
-
+  Serial.println(F("OK."));  
+  
   // ---
   lcd.setCursor(0,3);
-  lcd.print("(ctecka karet)     ");
-  Serial.println("Init RFID ... ");  
+  lcd.print(F("(ctecka karet)     "));
+  Serial.println(F("Init RFID ... "));  
+  /*
+  I had to comment this out because it made it non worky.
+  But I am not happy about it at all.
+
   pinMode(PIN_RFID_RST, OUTPUT);
   digitalWrite(PIN_RFID_RST, LOW);
   delay(500);
   digitalWrite(PIN_RFID_RST, HIGH);
   delay(500);
+  */
   mfrc522.PCD_Init();
   MFRC522Debug::PCD_DumpVersionToSerial(mfrc522, Serial);
-  Serial.println("OK.");  
+  if (mfrc522.PCD_PerformSelfTest()) {
+    rfid_available = true;
+    Serial.println(F("OK."));  
+  } else {
+    rfid_available = false;
+    Serial.println(F("FAILED."));  
+  }
 
 
   // ---
   lcd.setCursor(0,3);
-  lcd.print("(tiskarna)     ");
-  Serial.println("Init printer ... ");  
+  lcd.print(F("(tiskarna)     "));
+  Serial.println(F("Init printer ... "));  
 
   printerSerial.begin(19200);
   printer.begin();        
-
   printer.setFont('B');
-  printer.println("PostAmt");
-  printer.println("-------");
-  printer.feed(5);
-
+  printer.feed(1);
   printer.sleep();      // Tell printer to sleep
 
   delay(2000);
@@ -105,12 +122,20 @@ void setup() {
   neokey.pixels.setPixelColor(3, 0x333333);
   neokey.pixels.show();
 
+  // --- dial timer
+	ITimer1.init();
+  if (ITimer1.attachInterruptInterval(10, dialHandler))
+    Serial.println(F("Timer init OK."));
+  else
+    Serial.println(F("Can't set ITimer1. Select another freq. or timer"));
+
   lcd.setCursor(0,3);
-  lcd.print("muzes uradovat!   ");
-  Serial.println("Init completed.");  
+  lcd.print(F("muzes uradovat!   "));
+  Serial.println(F("Init completed."));  
 
   // ---
   delay(2000);
   lcd.clear();
   lcd.noBacklight();  
+
 }

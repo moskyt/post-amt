@@ -2,20 +2,20 @@
 void lcd_print_shipments_nom() {
   lcd.print(shipment_count);
   if (shipment_count == 1)
-    lcd.print(" zasilka");
+    lcd.print(F(" zasilka"));
   else if (shipment_count <= 4)
-    lcd.print(" zasilky");
+    lcd.print(F(" zasilky"));
   else
-    lcd.print(" zasilek");
+    lcd.print(F(" zasilek"));
 }
 
 
 void lcd_print_shipments_acc() {
   lcd.print(shipment_count);
   if (shipment_count == 1)
-    lcd.print(" zasilku");
+    lcd.print(F(" zasilku"));
   else if (shipment_count <= 4)
-    lcd.print(" zasilky");
+    lcd.print(F(" zasilky"));
   else
-    lcd.print(" zasilek");
+    lcd.print(F(" zasilek"));
 }
