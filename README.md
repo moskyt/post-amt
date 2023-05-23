@@ -4,15 +4,17 @@ Darek pro Vlka a Vorsilu k narozeninam 2023.
 
 Obecne: posledni tyden provazela hardwarova dramata a tak je SW mirne nedotazeny. Urceno k libovolnym upravam chovani i implementace podle potreby a aktualnich napadu.
 
-# Hardware
+## Hardware
 
-## Komponenty
+### Komponenty
 
-### mainboard
+#### mainboard
 
 Arduino Nano Every (5V)
 
-### zdroj - 5+12
+nevim proc a nemel jsem prostor na dalsi zkoumani, ale pokud je pripojeny zdroj do site, tak se mi nedari pripojit pres usb.
+
+#### zdroj - 5+12
 
 MEANWELL RD 35A
 https://www.gme.cz/v/1506286/mean-well-rd-35a-spinany-zdroj-pro-vestavbu-kryty
@@ -20,54 +22,54 @@ https://www.gme.cz/v/1506286/mean-well-rd-35a-spinany-zdroj-pro-vestavbu-kryty
 tepdown z 12 na 8.5v pro tiskarnu
 https://www.laskakit.cz/mikro-step-down-menic--nastavitelny
 
-### bzucak
+#### bzucak
 
 aktivni 5v bzucak
 
-### ciselnik
+#### ciselnik
 
 vykuchany rotacni ciselnik z telefonu
 https://aukro.cz/ciselnik-telefonu-zcela-funkcni-9x4-cm-7034546220
 
-### LCD 
+#### LCD 
 
 znakovy LCD 20x4 s i2c
 https://www.laskakit.cz/20x4-lcd-displej-2004-modry-i2c-prevodnik/
 
-### vaha
+#### vaha
 
 trikilogramovy vahovy senzor
 https://www.laskakit.cz/guang-ce-yzc-131-vazici-senzor-3kg/
 https://www.laskakit.cz/ad-prevodnik-modul-24-bit-2-kanaly-hx711/
 
-### led displej pro vahu
+#### led displej pro vahu
 
 4-digit 8-segment
 https://www.laskakit.cz/hodinovy-displej-0-56--tm1637/
 
-### RFID ctecka -- RC522 / 13.56 MHz
+#### RFID ctecka -- RC522 / 13.56 MHz
 
 https://www.laskakit.cz/rfid-ctecka-s-vestavenou-antenou-mfrc-522-rc522/
 
-### zamek
+#### zamek
 
 https://www.laskakit.cz/elektromagneticky-zamek-pro-dvere-12vdc-0-6a/
 
 pres mosfet
 https://www.laskakit.cz/pwm-mosfet-modul-lr7843--30vdc-161a/
 
-### tiskarna
+#### tiskarna
 
 https://www.adafruit.com/product/597
 
-### klavesnice
+#### klavesnice
 
 NeoKey
 https://www.adafruit.com/product/4980
 
-## Zapojeni
+### Zapojeni
 
-### Piny z Arduina
+#### Piny z Arduina
 
 2+3 - vaha (data, clk)
 4 - bzucak
@@ -78,7 +80,7 @@ https://www.adafruit.com/product/4980
 18+19 - I2C (neokey, LCD)
 20 - zamek pres mosfet
 
-### Pripojeni komponent na mainboard
+#### Pripojeni komponent na mainboard
 
 R32-35 vaha[GND,DATA,CLK,VCC]
 ? bzucak[+,GND]
@@ -94,15 +96,13 @@ zamek -- do svorkovnice na mosfetu
 5v napajeni -- do svorkovnice na mainboardu
 12v napajeni -- do wago svorek
 
-### 12V komponenty
+#### 12V komponenty
 
 mosfet pro zamek
 
 napajeni pro tiskarnu (stepdown na 8.5VÎ)
 
-# Funkce
-
-## Elektronika
+## Funkce
 
 ### Vaha
 
