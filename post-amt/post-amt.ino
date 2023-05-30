@@ -14,21 +14,20 @@
 #include "die_post_360.h"
 
 //--- pins and adresses
-// available_pins: 5,6
 
 const int I2C_LCD = 0x27;
 const int I2C_NEOKEY = 0x30;
 
-const int PIN_BEEP = 4;
-const int PIN_DIAL = 5;
-const int PIN_RFID_RST = 9;
-const int PIN_RFID_SS  = 10;
 const int PIN_LOAD_DATA = 2;
 const int PIN_LOAD_CLK = 3;
+const int PIN_BEEP = 4;
+const int PIN_DIAL = 5;
 const int PIN_LED_DATA = 7;
 const int PIN_LED_CLK = 8;
-const int PIN_PRINTER_RX = 17;
+const int PIN_RFID_RST = 9;
+const int PIN_RFID_SS  = 10;
 const int PIN_PRINTER_TX = 16;
+const int PIN_PRINTER_RX = 17;
 const int PIN_LOCK = 20;
 const int PIN_ROTARY = 21;
 
@@ -93,12 +92,13 @@ unsigned long now = 0;
 // flag register of the neokey 
 uint8_t buttons = 0;
 
-// timers stuff
+// timers stuff -- taken from the library
 
 // Select USING_16MHZ     == true for  16MHz to Timer TCBx => shorter timer, but better accuracy
 // Select USING_8MHZ      == true for   8MHz to Timer TCBx => shorter timer, but better accuracy
 // Select USING_250KHZ    == true for 250KHz to Timer TCBx => shorter timer, but better accuracy
-// Not select for default 250KHz to Timer TCBx => longer timer,  but worse accuracy#define USING_16MHZ     false
+// Not select for default 250KHz to Timer TCBx => longer timer,  but worse accuracy
+#define USING_16MHZ     false
 #define USING_8MHZ      false
 #define USING_250KHZ    false
 
@@ -125,10 +125,12 @@ int dialNumber[dialNMax] = {0,0,0,0};
 int dialPtr = 0;
 
 // what is available after init
+// the idea here is that if neokey is not connected, any call results in reset
 bool neokey_available = false;
 bool rfid_available = false;
 
 // what is currently read
+// remember that 0 is a valid value for dial...
 int dial_read = -1;
 unsigned long card_read = -1;
 
@@ -151,11 +153,10 @@ void loop() {
   // give me credit for this not being a global variable
   bool any_info_neo = false;
   if (neokey_available)
-  for (uint16_t i=0; i<neokey.pixels.numPixels(); i++) 
-    neokey.pixels.setPixelColor(i, 0x000000);
+    for (uint16_t i=0; i<neokey.pixels.numPixels(); i++) 
+      neokey.pixels.setPixelColor(i, 0x000000);
 
-  if (rfid_available)
-    read_rfid();
+  if (rfid_available) read_rfid();
   display_scale_led();
   get_weight_from_scale();
 
@@ -178,6 +179,7 @@ void loop() {
   else
     // handle finalization of shipping process (reset or proceed with sending)
     reset_or_send(any_info_neo);  
+
   // process adding a new item
   add_shipments(any_info_neo);
 
@@ -225,24 +227,15 @@ void loop() {
     if (show_dial < 100) lcd.print(F("0"));
     if (show_dial < 10) lcd.print(F("0"));
     lcd.print(show_dial);
-  } else if (show_card_at == 0 && show_dial_at == 0) {
-    // here we can consider other stuff to be shown
-    lcd.setCursor(0,2);
-    lcd.print(F("                    "));
-    lcd.setCursor(0,3);
-    lcd.print(F("                    "));
   }
   
   // clear shipping info
-  if (shipment_count == 0) {
-    lcd.setCursor(0,0);
-    lcd.print(F("                    "));
-    lcd.setCursor(0,1);
-    lcd.print(F("                    "));
-  }
-    
+  if (shipment_count == 0) lcd_clear_top();
+  // clear card/dial info
+  if ((show_card_at == 0) && (show_dial_at == 0)) lcd_clear_bottom();
+
+  // shut off lcd if there is nothing going on
   if ( (shipment_count == 0) && (show_dial_at == 0) && (show_card_at == 0) ) {
-    // shut off lcd 
     lcd.noBacklight();
     lcd.clear();
   }
@@ -266,6 +259,7 @@ void loop() {
       delay(1000);
       digitalWrite(PIN_LOCK, LOW);
     } else {
+      Serial.println(F("Code not correct."));
       beep1(500);
     }
     dial_read = -1;

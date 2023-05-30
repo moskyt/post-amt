@@ -128,7 +128,21 @@ po vytoceni kodu 1234 se otevre
 
 zapadka: vzadu shora
 
-automaticke otevirani na odpuzujici se magnety vedlo k tomu, ze se zapadka nedokazala otevrit. nestihnul jsem vyzkouset ruzne alternativy, ale mozna by to spravne slaba pruzina nebo spravna dvojice magnetu vyresila
+automaticke otevirani na odpuzujici se magnety vedlo k tomu, ze se zapadka nedokazala otevrit (tlak zboku - vysoke treni nebo se to rovnou zkrizilo). nestihnul jsem vyzkouset ruzne alternativy, ale mozna by to spravne slaba pruzina nebo spravna dvojice magnetu vyresila.
+
+--- na posledni chvili jsem zkusil dat tam dvojici slabsich magnetu a obecne to funguje skvele, ale uz se mi taky stalo, ze se to odmitlo otevrit. tak nevim, je asi potreba posoudit provozni zkusenost. kdyztak proste staci vyndat jeden magnet a je to. nejaky automatizovany chytroreseni by vyzadovalo koncovej spinac a dat tomu vic pokusu, ale to bylo nad aktualni ramec moznosti.
+
+## Software
+
+jako obvykle to vznikalo v prvni fazi dlouho a v druhe fazi narychlo a urcite nema nikdo nic proti zasadnim i drobnym zmenam.
+
+neni tam asi nic nestandardniho, snad jen ten timer pro asynchronni reseni toho rotacniho ciselniku. 
+
+### Logo Die Post na tiskarnu
+
+pouzil jsem postup z https://learn.adafruit.com/mini-thermal-receipt-printer/bitmap-printing
+
+ten skript je v adresari grafika taky
 
 ## Playware
 

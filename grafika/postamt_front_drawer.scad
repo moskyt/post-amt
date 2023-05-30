@@ -4,7 +4,7 @@ $fn = 80;
 eps = 0.01;
 
 total_z = 7.5;
-total_y = 60;
+total_y = 58;
 total_x = 187;
 roffset_x1 = 36;
 roffset_x2 = 172;
@@ -12,7 +12,7 @@ roffset_x2 = 172;
 printer_x = 103.5;
 printer_y = 57;
 
-rfid_up = 14;
+rfid_up = 13;
 
 difference() {
     cuboid([total_x,total_z,total_y], anchor = BOTTOM+RIGHT+FWD);
